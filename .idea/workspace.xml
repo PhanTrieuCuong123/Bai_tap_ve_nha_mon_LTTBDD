@@ -2,26 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b7223129-d1d4-48b3-a99c-308f8a54486d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/proguard-rules.pro" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/src/androidTest/java/com/example/bai_1/ExampleInstrumentedTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/src/main/java/com/example/bai_1/MainActivity.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/src/main/java/com/example/bai_1/ui/theme/Color.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/src/main/java/com/example/bai_1/ui/theme/Theme.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/src/main/java/com/example/bai_1/ui/theme/Type.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/src/main/res/values/themes.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/src/main/res/xml/backup_rules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/src/main/res/xml/data_extraction_rules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/app/src/test/java/com/example/bai_1/ExampleUnitTest.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/local.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tuan_2/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,10 +12,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="3KXniBMnfBhokGVLSb8SjVhSNU4" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -51,6 +32,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/Bai_tap_ve_nha_mon_LTTBDD",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
