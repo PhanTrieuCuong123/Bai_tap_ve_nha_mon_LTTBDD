@@ -50,15 +50,7 @@ fun WelcomeScreen(onReady: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.weight(1f))
-        Box(
-            modifier = Modifier
-                .size(120.dp)
-                .clip(RoundedCornerShape(24.dp))
-                .background(Color(0xFF3DDC84)),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("</>", fontSize = 36.sp, fontWeight = FontWeight.Bold, color = Color.White)
-        }
+        ComposeLogo(Modifier.size(120.dp))
         Spacer(Modifier.height(24.dp))
         Text("Jetpack Compose", fontSize = 20.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(12.dp))
@@ -195,13 +187,15 @@ fun TextDetailScreen(onBack: () -> Unit) {
 
 @Composable
 fun ImageDetailScreen(onBack: () -> Unit) {
-    val url = "https://giaothongvantaitphcm.edu.vn/wp-content/uploads/2025/01/Logo-GTVT.png"
+    val url =
+        "https://vi.wikipedia.org/wiki/Special:FilePath/%E1%BA%A2nh_m%E1%BA%B7t_tr%C6%B0%E1%BB%9Bc_%C4%90H_GTVT_TP_HCM.jpg?width=1000"
 
     // Tìm ảnh tên "campus" trong res/drawable. Không có ảnh thì không báo lỗi build.
     val context = LocalContext.current
     val campusId = remember {
         context.resources.getIdentifier("campus", "drawable", context.packageName)
     }
+    var status by remember { mutableStateOf("Đang tải ảnh...") }
 
     DetailScaffold("Images", onBack) {
         Column(
@@ -211,16 +205,30 @@ fun ImageDetailScreen(onBack: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AsyncImage(
-                model = url,
+                model = coil.request.ImageRequest.Builder(context)
+                    .data(url)
+                    .addHeader("User-Agent", "Bai1App/1.0 (Android; bai tap ve nha UTH)")
+                    .crossfade(true)
+                    .build(),
                 contentDescription = "Ảnh từ URL",
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Fit
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xFFEFEFEF)),
+                contentScale = ContentScale.Crop,
+                onSuccess = { status = "Tải ảnh thành công" },
+                onError = { status = "Lỗi tải ảnh: ${it.result.throwable}" }
             )
             Spacer(Modifier.height(6.dp))
-            Text(url, fontSize = 11.sp, textAlign = TextAlign.Center, textDecoration = TextDecoration.Underline)
+            Text(status, fontSize = 12.sp, color = Color.Red, textAlign = TextAlign.Center)
+            Spacer(Modifier.height(4.dp))
+            Text(
+                "https://vi.wikipedia.org/wiki/Special:FilePath/Ảnh_mặt_trước_ĐH_GTVT_TP_HCM.jpg",
+                fontSize = 11.sp,
+                textAlign = TextAlign.Center,
+                textDecoration = TextDecoration.Underline
+            )
 
             Spacer(Modifier.height(24.dp))
 
@@ -376,39 +384,116 @@ fun RowDetailScreen(onBack: () -> Unit) {
 /* ---------------- Tự tìm hiểu: các thành phần UI cơ bản khác ---------------- */
 
 @Composable
+private fun MoreGroup(title: String) {
+    Text(
+        title,
+        color = Blue,
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Medium,
+        modifier = Modifier.padding(top = 12.dp)
+    )
+    HorizontalDivider(color = Blue)
+}
+
+@Composable
+private fun MoreLabel(text: String) {
+    Text(text, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 4.dp))
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 fun MoreComponentsScreen(onBack: () -> Unit) {
-    var checked by remember { mutableStateOf(true) }
+    // Input
     var switched by remember { mutableStateOf(false) }
-    var radio by remember { mutableStateOf(0) }
     var slider by remember { mutableStateOf(0.4f) }
+    var showDatePicker by remember { mutableStateOf(false) }
+    val dateState = rememberDatePickerState()
+
+    // Selection
     var clicks by remember { mutableStateOf(0) }
+    var checked by remember { mutableStateOf(true) }
+    var radio by remember { mutableStateOf(0) }
+    val cities = listOf("TP.HCM", "Hà Nội", "Đà Nẵng", "Cần Thơ")
+    var pickerOpen by remember { mutableStateOf(false) }
+    var city by remember { mutableStateOf(cities[0]) }
+
+    // Navigation
+    val tabs = listOf("Home", "Search", "Profile")
+    var tab by remember { mutableStateOf(0) }
+    var menuOpen by remember { mutableStateOf(false) }
+    var menuResult by remember { mutableStateOf("Chưa chọn hành động nào") }
+
+    // Content
+    val fruits = listOf("Xoài", "Chuối", "Cam", "Dưa hấu", "Ổi", "Nho", "Táo", "Mận")
+
+    val dateText = dateState.selectedDateMillis?.let { millis ->
+        val formatter = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
+        formatter.timeZone = java.util.TimeZone.getTimeZone("UTC")
+        formatter.format(java.util.Date(millis))
+    } ?: "Chưa chọn ngày"
+
+    if (showDatePicker) {
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(onClick = { showDatePicker = false }) { Text("OK") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDatePicker = false }) { Text("Hủy") }
+            }
+        ) {
+            DatePicker(state = dateState)
+        }
+    }
 
     DetailScaffold("Tự tìm hiểu", onBack) {
         Column(
             modifier = Modifier.verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text("Button", fontWeight = FontWeight.Bold)
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Button(onClick = { clicks++ }) { Text("Button ($clicks)") }
-                OutlinedButton(onClick = { clicks++ }) { Text("Outlined") }
-                TextButton(onClick = { clicks++ }) { Text("Text") }
-            }
+            /* ----- Display ----- */
+            MoreGroup("Display")
+            Text("Text và Image: xem 2 màn hình riêng ở danh sách phía trước.", fontSize = 13.sp, color = Color.Gray)
 
-            Text("Checkbox", fontWeight = FontWeight.Bold)
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(checked = checked, onCheckedChange = { checked = it })
-                Text(if (checked) "Đã chọn" else "Chưa chọn")
-            }
+            /* ----- Input ----- */
+            MoreGroup("Input")
+            Text("TextField và PasswordField: xem 2 màn hình riêng ở danh sách phía trước.", fontSize = 13.sp, color = Color.Gray)
 
-            Text("Switch", fontWeight = FontWeight.Bold)
+            MoreLabel("Toggle (Switch)")
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Switch(checked = switched, onCheckedChange = { switched = it })
                 Spacer(Modifier.width(8.dp))
                 Text(if (switched) "Bật" else "Tắt")
             }
 
-            Text("RadioButton", fontWeight = FontWeight.Bold)
+            MoreLabel("Slider: ${"%.0f".format(slider * 100)}")
+            Slider(value = slider, onValueChange = { slider = it })
+            LinearProgressIndicator(progress = { slider }, modifier = Modifier.fillMaxWidth())
+
+            MoreLabel("DatePicker")
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Button(onClick = { showDatePicker = true }) { Text("Chọn ngày") }
+                Spacer(Modifier.width(12.dp))
+                Text(dateText)
+            }
+
+            /* ----- Selection ----- */
+            MoreGroup("Selection")
+
+            MoreLabel("Button")
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = { clicks++ }) { Text("Button ($clicks)") }
+                OutlinedButton(onClick = { clicks++ }) { Text("Outlined") }
+                TextButton(onClick = { clicks++ }) { Text("Text") }
+            }
+
+            MoreLabel("Checkbox")
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(checked = checked, onCheckedChange = { checked = it })
+                Text(if (checked) "Đã chọn" else "Chưa chọn")
+            }
+
+            MoreLabel("RadioButton")
             listOf("Lựa chọn A", "Lựa chọn B", "Lựa chọn C").forEachIndexed { i, label ->
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     RadioButton(selected = radio == i, onClick = { radio = i })
@@ -416,22 +501,97 @@ fun MoreComponentsScreen(onBack: () -> Unit) {
                 }
             }
 
-            Text("Slider: ${"%.0f".format(slider * 100)}", fontWeight = FontWeight.Bold)
-            Slider(value = slider, onValueChange = { slider = it })
+            MoreLabel("Picker (chọn 1 giá trị từ danh sách)")
+            Box {
+                OutlinedButton(onClick = { pickerOpen = true }) { Text("Thành phố: $city  ▾") }
+                DropdownMenu(expanded = pickerOpen, onDismissRequest = { pickerOpen = false }) {
+                    cities.forEach { c ->
+                        DropdownMenuItem(
+                            text = { Text(c) },
+                            onClick = {
+                                city = c
+                                pickerOpen = false
+                            }
+                        )
+                    }
+                }
+            }
 
-            Text("ProgressIndicator", fontWeight = FontWeight.Bold)
-            LinearProgressIndicator(progress = { slider }, modifier = Modifier.fillMaxWidth())
-            CircularProgressIndicator()
+            /* ----- Navigation ----- */
+            MoreGroup("Navigation")
 
-            Text("Card", fontWeight = FontWeight.Bold)
+            MoreLabel("NavigationView (tiêu đề + nút Back)")
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(LightBlue)
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null, tint = Blue)
+                Spacer(Modifier.width(12.dp))
+                Text("Tiêu đề màn hình", color = Blue)
+            }
+
+            MoreLabel("TabBar")
+            TabRow(selectedTabIndex = tab) {
+                tabs.forEachIndexed { i, title ->
+                    Tab(selected = tab == i, onClick = { tab = i }, text = { Text(title) })
+                }
+            }
+            Text("Nội dung của tab: ${tabs[tab]}", color = Color.Gray)
+
+            MoreLabel("Menu")
+            Box {
+                Button(onClick = { menuOpen = true }) { Text("Mở Menu  ⋮") }
+                DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+                    listOf("Sửa", "Chia sẻ", "Xóa").forEach { action ->
+                        DropdownMenuItem(
+                            text = { Text(action) },
+                            onClick = {
+                                menuResult = "Đã chọn: $action"
+                                menuOpen = false
+                            }
+                        )
+                    }
+                }
+            }
+            Text(menuResult, fontSize = 12.sp, color = Color.Gray)
+
+            /* ----- Content ----- */
+            MoreGroup("Content")
+
+            MoreLabel("List")
+            androidx.compose.foundation.lazy.LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(150.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xFFEFEFEF))
+            ) {
+                fruits.forEach { fruit ->
+                    item {
+                        Text(fruit, modifier = Modifier.fillMaxWidth().padding(12.dp))
+                        HorizontalDivider()
+                    }
+                }
+            }
+
+            MoreLabel("Card")
             Card(modifier = Modifier.fillMaxWidth()) {
                 Text("Nội dung trong Card", modifier = Modifier.padding(16.dp))
             }
 
-            Text("Divider", fontWeight = FontWeight.Bold)
+            MoreLabel("Divider")
             HorizontalDivider()
 
-            Text("Box", fontWeight = FontWeight.Bold)
+            /* ----- Khác ----- */
+            MoreGroup("Khác")
+            MoreLabel("CircularProgressIndicator")
+            CircularProgressIndicator()
+
+            MoreLabel("Box")
             Box(
                 modifier = Modifier
                     .size(48.dp)
@@ -441,6 +601,7 @@ fun MoreComponentsScreen(onBack: () -> Unit) {
             ) {
                 Text("A", color = Color.White, fontWeight = FontWeight.Bold)
             }
+
             Spacer(Modifier.height(24.dp))
         }
     }
