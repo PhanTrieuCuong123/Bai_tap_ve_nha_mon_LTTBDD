@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "410501382008",
+    "project_id": "bt-02-tich-hop-full-dich-vu",
+    "storage_bucket": "bt-02-tich-hop-full-dich-vu.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:410501382008:android:1b918c2f6df79f3938928d",
+        "android_client_info": {
+          "package_name": "com.example.bai_2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "410501382008-o7jcm2gurfb80kd57vlk6ispgkgl1ncj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bai_2",
+            "certificate_hash": "9fc8edb2dac8aa23a7632743ff8ce93fa6374fd0"
+          }
+        },
+        {
+          "client_id": "410501382008-9fkud6n6fmvpi3t9kbmkcmdqlmdga0mb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx5x_QkZng6P1RxbSMni1rwtEQ_v7hZNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "410501382008-9fkud6n6fmvpi3t9kbmkcmdqlmdga0mb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
